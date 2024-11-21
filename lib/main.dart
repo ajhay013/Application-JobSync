@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:capstone/Pages/Sign.dart';
+import 'package:capstone/Pages/SignEmployer.dart';
 void main() {
   runApp(MyApp());
 }
@@ -130,7 +131,7 @@ Widget build(BuildContext context) {
                   children: [
                 const SizedBox(height: 8.0), // Space between JobSync text and Create Account text
                 const Text(
-                  'Create Account',
+                  'Create Account.',
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
@@ -141,26 +142,28 @@ Widget build(BuildContext context) {
                 ),
             // Existing row for "Already have an account? Log In"
             Row(
-              mainAxisAlignment: MainAxisAlignment.start, // Align this row to the left
-              children: [
-                const Text("Already have an account?"),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignScreen()), // Navigate to Sign Screen
-                    );
-                  },
-                  child: const Text(
-                    "Log In",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+            children: [
+              Text("Already have an account? "),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignScreen()), // Replace with your login screen class name
+                  );
+                },
+                child: Text(
+                  "Log In",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+
+
+            
             const SizedBox(height: 15.0),
                 Center(
               child: const Text(
@@ -178,7 +181,7 @@ const SizedBox(height: 10),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isCandidate ? Colors.blue[900] : Colors.grey[1000],
                     foregroundColor: _isCandidate ? Colors.white : Colors.black,
-                    side: const BorderSide(color: Colors.grey),
+                    //side: const BorderSide(color: Colors.grey),
                     padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 12),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -193,27 +196,33 @@ const SizedBox(height: 10),
                     });
                   },
                 ),
-                ElevatedButton.icon(
-                  icon: Icon(Icons.apartment, color: !_isCandidate ? Colors.white : Colors.black),
-                  label: const Text('Employers'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: !_isCandidate ? Colors.blue[900] : Colors.grey[1000],
-                    foregroundColor: !_isCandidate ? Colors.white : Colors.black,
-                    side: const BorderSide(color: Colors.grey),
-                    padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 12),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
+              ElevatedButton.icon(
+                icon: Icon(Icons.apartment, color: !_isCandidate ? Colors.white : Colors.black),
+                label: const Text('Employers'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: !_isCandidate ? Colors.blue[900] : Colors.grey[1000],
+                  foregroundColor: !_isCandidate ? Colors.white : Colors.black,
+                  //side: const BorderSide(color: Colors.grey),
+                  padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 12),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
                     ),
                   ),
-                  onPressed: () { 
-                    setState(() {
-                      _isCandidate = false;
-                    });
-                  },
                 ),
+                onPressed: () {
+                  setState(() {
+                    _isCandidate = false;
+                  });
+                  // Navigate to EmployerSignUpScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EmployerSignUpScreen()),
+                  );
+                },
+              ),
+
               ],
             ),
 const SizedBox(height: 15.0),
