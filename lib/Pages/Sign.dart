@@ -102,7 +102,7 @@ class _SignScreenState extends State<SignScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isCandidate ? Colors.blue[900] : Colors.grey[1000],
                     foregroundColor: _isCandidate ? Colors.white : Colors.black,
-                    side: const BorderSide(color: Colors.grey),
+                    //side: const BorderSide(color: Colors.grey),
                     padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 12),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -123,7 +123,7 @@ class _SignScreenState extends State<SignScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: !_isCandidate ? Colors.blue[900] : Colors.grey[1000],
                     foregroundColor: !_isCandidate ? Colors.white : Colors.black,
-                    side: const BorderSide(color: Colors.grey),
+                    //side: const BorderSide(color: Colors.grey),
                     padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 12),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
