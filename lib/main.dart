@@ -208,7 +208,7 @@ const SizedBox(height: 10),
                       ),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () { 
                     setState(() {
                       _isCandidate = false;
                     });
