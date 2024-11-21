@@ -12,9 +12,7 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
   final _firstNameController = TextEditingController();
   @override
 
-  void dispose() {
-    _firstNameController.dispose();
-  }
+
   /*void dispose() {
     // Dispose of controllers when not needed
     _firstNameController.dispose();
