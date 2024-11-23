@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RegistrationForm extends StatefulWidget {
+class RegistrationForm extends StatefulWidget {                                                      
   const RegistrationForm({super.key});
 
   @override
