@@ -258,6 +258,53 @@ class _SignScreenState extends State<SignScreen> {
                 ],
               ),
               const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _validateAndSubmit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[900],
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  
+                ),
+                child: const Text("Sign In", style: TextStyle(color: Colors.white)),
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                  '- or -',
+                  textAlign: TextAlign.center,
+                ),
+              const SizedBox(height: 16.0),
+              OutlinedButton.icon(
+                onPressed: () {},
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 1.0), // Optional, to give space between the image and text
+                  child: Image.asset(
+                    'assets/logo/google_logo.png', // Add your Google logo path here
+                    height: 24.0, // Adjust the height to fit your design
+                  ),
+                ),
+                label: const Text("Continue with Google"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  minimumSize: const Size(double.infinity, 50),
+                  side: const BorderSide(color: Colors.grey),
+                  padding: EdgeInsets.symmetric(vertical: 16), // Same padding as in the second button
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8), 
+                  )
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+/*
+const SizedBox(height: 10),
               SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -271,7 +318,7 @@ class _SignScreenState extends State<SignScreen> {
                 onPressed: () {
                   // Handle reset password logic here
                 },
-                child: Row(
+child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -309,11 +356,4 @@ const SizedBox(height: 16.0),
                   borderRadius: BorderRadius.circular(8), 
                   )
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+              ),*/
