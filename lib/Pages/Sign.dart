@@ -244,22 +244,71 @@ class _SignScreenState extends State<SignScreen> {
                   TextButton(
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ForgetPasswordScreen()),
-                      );
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            ForgotPasswordScreen(),
+                        transitionDuration: Duration.zero, // No animation
+                        reverseTransitionDuration: Duration.zero, // No reverse animation
+                      ),
+                    );
                     },
                     child: const Text("Forgot Password", style: TextStyle(color: Colors.blue)),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _validateAndSubmit,
+              SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[900],
-                  minimumSize: const Size(double.infinity, 50),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-                child: const Text("Sign In", style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  // Handle reset password logic here
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Sign in',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    SizedBox(width: 5),
+                    Icon(Icons.arrow_forward, color: Colors.white),
+                  ],
+                ),
+              ),
+            ),
+const SizedBox(height: 16.0),
+              const Text(
+                  '- or -',
+                  textAlign: TextAlign.center,
+                ),
+              const SizedBox(height: 16.0),
+              OutlinedButton.icon(
+                onPressed: () {},
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 1.0), // Optional, to give space between the image and text
+                  child: Image.asset(
+                    'assets/logo/google_logo.png', // Add your Google logo path here
+                    height: 24.0, // Adjust the height to fit your design
+                  ),
+                ),
+                label: const Text("Continue with Google"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  minimumSize: const Size(double.infinity, 50),
+                  side: const BorderSide(color: Colors.grey),
+                  padding: EdgeInsets.symmetric(vertical: 16), // Same padding as in the second button
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8), 
+                  )
+                ),
               ),
             ],
           ),

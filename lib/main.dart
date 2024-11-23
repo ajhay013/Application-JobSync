@@ -147,9 +147,13 @@ Widget build(BuildContext context) {
               GestureDetector(
                 onTap: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignScreen()), // Replace with your login screen class name
-                  );
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => SignScreen(), // Your login screen class
+                    transitionDuration: Duration.zero, // Instant transition
+                    reverseTransitionDuration: Duration.zero, // Instant reverse transition
+                  ),
+                );
                 },
                 child: Text(
                   "Log In",
@@ -217,9 +221,13 @@ const SizedBox(height: 10),
                   });
                   // Navigate to EmployerSignUpScreen
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EmployerSignUpScreen()),
-                  );
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => EmployerSignUpScreen(), // Your EmployerSignUpScreen class
+                    transitionDuration: Duration.zero, // Instant transition
+                    reverseTransitionDuration: Duration.zero, // Instant reverse transition
+                  ),
+                );
                 },
               ),
 
@@ -576,26 +584,29 @@ const SizedBox(height: 15.0),
       ),
           const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _submitForm,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[900], // Set the button's background color to blue
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Create Account',
-                    style: TextStyle(color: Colors.white), // Set text color to white
-                  ),
-                  SizedBox(width: 8.0),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white, // Set the icon color to white
-                  ),
-                ],
+            onPressed: _submitForm,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue[900], // Set the button's background color to blue
+              padding: EdgeInsets.symmetric(vertical: 16), // Same padding as in the second button
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8), // Set border radius
               ),
             ),
-
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Create Account',
+                  style: TextStyle(color: Colors.white), // Set text color to white
+                ),
+                SizedBox(width: 8.0),
+                Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white, // Set the icon color to white
+                ),
+              ],
+            ),
+          ),
               const SizedBox(height: 16.0),
               const Text(
                   '- or -',
@@ -605,7 +616,7 @@ const SizedBox(height: 15.0),
               OutlinedButton.icon(
                 onPressed: () {},
                 icon: Padding(
-                  padding: const EdgeInsets.only(right: 10.0), // Optional, to give space between the image and text
+                  padding: const EdgeInsets.only(right: 1.0), // Optional, to give space between the image and text
                   child: Image.asset(
                     'assets/logo/google_logo.png', // Add your Google logo path here
                     height: 24.0, // Adjust the height to fit your design
@@ -616,6 +627,10 @@ const SizedBox(height: 15.0),
                   foregroundColor: Colors.black,
                   minimumSize: const Size(double.infinity, 50),
                   side: const BorderSide(color: Colors.grey),
+                  padding: EdgeInsets.symmetric(vertical: 16), // Same padding as in the second button
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8), 
+                  )
                 ),
               ),
             ],
