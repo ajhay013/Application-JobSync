@@ -512,8 +512,9 @@ Row(
 
   // Third screen for email, password, and terms agreement
   Widget buildThirdScreen() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: SingleChildScrollView(  // Wrap Column in SingleChildScrollView
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -537,117 +538,98 @@ Row(
             "Create Account.",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          /*Row(
-            children: [
-              Text("Already have an account? "),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignScreen()),
-                  );
-                },
-                child: Text(
-                  "Log In",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),*/
           const SizedBox(height: 20),
           // Email input
-  TextFormField(
-                controller: _emailController,
-                  decoration: InputDecoration(
-                  label: RichText(
-                  text: const TextSpan(
+          TextFormField(
+            controller: _emailController,
+            decoration: InputDecoration(
+              label: RichText(
+                text: const TextSpan(
                   text: 'Email Address ',
                   style: TextStyle(color: Colors.black, fontSize: 16.0),
                   children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
                 ),
               ),
-            border: const OutlineInputBorder(),
-            contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              }
+              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                return 'Please enter a valid email address';
+              }
+              return null;
+            },
           ),
-              keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                  return 'Please enter a valid email address';
-                } 
-                    return null;
-                },
-      ),
-            const SizedBox(height: 15.0),
-                // Password field
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: !_showPassword,
-                    decoration: InputDecoration(
-                    label: RichText(
-                    text: const TextSpan(
-                    text: 'Password ',
-                    style: TextStyle(color: Colors.black, fontSize: 16.0),
-                    children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
-                  ),
-                ),
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                  suffixIcon: IconButton(
-                  icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
-                  onPressed: _togglePasswordVisibility,
+          const SizedBox(height: 15.0),
+          // Password field
+          TextFormField(
+            controller: _passwordController,
+            obscureText: !_showPassword,
+            decoration: InputDecoration(
+              label: RichText(
+                text: const TextSpan(
+                  text: 'Password ',
+                  style: TextStyle(color: Colors.black, fontSize: 16.0),
+                  children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
                 ),
               ),
-                    validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 8) {
-                          return 'Password must be at least 8 characters long';
-                        }
-                        if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                          return 'Password must include at least one uppercase letter';
-                        }
-                        if (!RegExp(r'[a-z]').hasMatch(value)) {
-                          return 'Password must include at least one lowercase letter';
-                        }
-                        if (!RegExp(r'[0-9!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                          return 'Password must include at least one number or symbol';
-                        }
-                        return null;
-                      },
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              suffixIcon: IconButton(
+                icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+                onPressed: _togglePasswordVisibility,
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your password';
+              }
+              if (value.length < 8) {
+                return 'Password must be at least 8 characters long';
+              }
+              if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                return 'Password must include at least one uppercase letter';
+              }
+              if (!RegExp(r'[a-z]').hasMatch(value)) {
+                return 'Password must include at least one lowercase letter';
+              }
+              if (!RegExp(r'[0-9!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                return 'Password must include at least one number or symbol';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 15.0),
+          // Confirm Password field
+          TextFormField(
+            controller: _confirmPasswordController,
+            obscureText: !_showConfirmPassword,
+            decoration: InputDecoration(
+              label: RichText(
+                text: const TextSpan(
+                  text: 'Confirm Password ',
+                  style: TextStyle(color: Colors.black, fontSize: 16.0),
+                  children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
                 ),
-                const SizedBox(height: 15.0),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  obscureText: !_showConfirmPassword,
-                    decoration: InputDecoration(
-                    label: RichText(
-                    text: const TextSpan(
-                    text: 'Confirm Password ',
-                    style: TextStyle(color: Colors.black, fontSize: 16.0),
-                    children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
-                  ),
-                ),
-                  border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    suffixIcon: IconButton(
-                    icon: Icon(_showConfirmPassword ? Icons.visibility : Icons.visibility_off),
-                    onPressed: _toggleConfirmPasswordVisibility,
-                  ),
-                ),
-                    validator: (value) {
-                    if (value == null || value != _passwordController.text) {
-                    return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                ),
+              ),
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              suffixIcon: IconButton(
+                icon: Icon(_showConfirmPassword ? Icons.visibility : Icons.visibility_off),
+                onPressed: _toggleConfirmPasswordVisibility,
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value != _passwordController.text) {
+                return 'Passwords do not match';
+              }
+              return null;
+            },
+          ),
           const SizedBox(height: 20),
           // Agreement checkbox
           Row(
@@ -669,61 +651,62 @@ Row(
             ],
           ),
           const SizedBox(height: 20),
-Row(
-  children: [
-    Expanded(
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          //side: BorderSide(color: Colors.blue[900]!), // Border color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      stepIndex = 1; // Go back to the first screen
+                    });
+                  },
+                  child: const Text(
+                    "Back",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue[900],
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      stepIndex = 2; // Move to second screen
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Create Account",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      SizedBox(width: 5),
+                      Icon(Icons.arrow_forward, color: Colors.white),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-        onPressed: () {
-          setState(() {
-            stepIndex = 1; // Go back to the first screen
-          });
-        },
-        child: const Text(
-          "Back",
-          style: TextStyle(fontSize: 16, color: Colors.black),
-        ),
-      ),
-    ),
-    const SizedBox(width: 10),
-    Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue[900],
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        onPressed: () {
-      setState(() {
-        stepIndex = 2; // Move to second screen
-      });
-    },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              "Create Account",
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            SizedBox(width: 5),
-            Icon(Icons.arrow_forward, color: Colors.white),
-          ],
-        ),
-      ),
-    ),
-  ],
-)
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
   
 }
