@@ -8,26 +8,21 @@ class EmployerSignUpScreen extends StatefulWidget {
 }
 
 class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
-  int stepIndex = 0; // 0 = First screen, 1 = Second screen
+  int stepIndex = 0; // 0 = First screen, 1 = Second screen, 2 = Third screen
   final _firstNameController = TextEditingController();
-  @override
+  final TextEditingController _middleNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _positionController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  bool _isAgreed = false;
+  bool _showPassword = false;
+  bool _showConfirmPassword = false;
 
 
-  /*void dispose() {
-    // Dispose of controllers when not needed
-    _firstNameController.dispose();
-    _middleNameController.dispose();
-    _lastNameController.dispose();
-    _suffixController.dispose();
-    _genderController.dispose();
-    _contactController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  void _togglePasswordVisibility() {
+void _togglePasswordVisibility() {
     setState(() {
       _showPassword = !_showPassword;
     });
@@ -38,28 +33,19 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
       _showConfirmPassword = !_showConfirmPassword;
     });
   }
-
-  void _submitForm() {
-    if (_formKey.currentState?.validate() == true && _isAgreed) {
-      // Perform registration (e.g., API call or save to database)
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration successful!')),
-      );
-    } else if (!_isAgreed) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please agree to the Terms of Service')),
-      );
-    }
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: stepIndex == 0 ? buildFirstScreen() : buildSecondScreen(),
+      body: stepIndex == 0
+          ? buildFirstScreen()
+          : stepIndex == 1
+              ? buildSecondScreen()
+              : buildThirdScreen(), // Add third screen here
     );
   }
 
+  // First screen remains the same
   Widget buildFirstScreen() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -68,38 +54,32 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
         children: [
           const SizedBox(height: 60.0),
           Row(
-                    mainAxisAlignment: MainAxisAlignment.center,  // Centers the content horizontally
-                    children: [
-                      Image.asset(
-                        'assets/logo/jobsync_logo.png', // Path to your logo
-                        height: 50.0, // Adjust the height as needed
-                      ),
-                      const SizedBox(width: 8.0),  // Add space between the logo and text
-                      const Text(
-                        'JobSync',
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // You can change the color as needed
-                        ),
-                      ),
-                    ],
-                  ),
-          SizedBox(height: 20),
-
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/logo/jobsync_logo.png',
+                height: 50.0,
+              ),
+              const SizedBox(width: 8.0),
+              const Text(
+                'JobSync',
+                style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
           Text(
             "Create Account.",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          //SizedBox(height: 10),
-       Row(
+          Row(
             children: [
               Text("Already have an account? "),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SignScreen()), // Replace with your login screen class name
+                    MaterialPageRoute(builder: (context) => SignScreen()),
                   );
                 },
                 child: Text(
@@ -112,16 +92,14 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
               ),
             ],
           ),
-  const SizedBox(height: 15.0),
-                Center(
-              child: const Text(
-                'CREATE ACCOUNT AS A',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ),
-          SizedBox(height: 10),
-
-          // Tab Buttons
+          const SizedBox(height: 15.0),
+          Center(
+            child: const Text(
+              'CREATE ACCOUNT AS A',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ),
+          const SizedBox(height: 10),
           Row(
             children: [
               Expanded(
@@ -142,13 +120,12 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => MyApp()), // Replace with your main widget
-                      (route) => false, // Removes all previous routes
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                      (route) => false,
                     );
                   },
                 ),
               ),
-
               Expanded(
                 child: ElevatedButton.icon(
                   icon: Icon(Icons.apartment, color: Colors.white),
@@ -171,10 +148,8 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
               ),
             ],
           ),
-          SizedBox(height: 20),
-
-          // Input Fields for Step 1
-          TextFormField(
+          const SizedBox(height: 20),
+            TextFormField(
   controller: _firstNameController,
   decoration: InputDecoration(
     label: RichText(
@@ -206,84 +181,199 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
   },
 ),
           SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(labelText: "Middle Name"),
+          TextFormField(
+  controller: _middleNameController,
+  decoration: InputDecoration(
+    label: RichText(
+      text: const TextSpan(
+        text: 'Middle Name ',
+        style: TextStyle(color: Colors.black, fontSize: 16.0),
+        children: [
+          TextSpan(
+            text: '*',
+            style: TextStyle(color: Colors.red),
           ),
-          SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(labelText: "Last Name *"),
-          ),
-          SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(labelText: "Position *"),
-          ),
-          SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(labelText: "Phone Number *"),
-          ),
-          SizedBox(height: 20),
+        ],
+      ),
+    ),
+    border: const OutlineInputBorder(),
+    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+  ),
+  autovalidateMode: AutovalidateMode.onUserInteraction, // Trigger validation on interaction
+  validator: (value) {
+    // Check if the value is empty
+    if (value == null || value.isEmpty) {
+      return 'Middle name is required';
+    }
+    // Check if the value contains only letters
+    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+      return 'Please enter only letters';
+    }
+    return null; // Validation passes if the input is valid
+  },
+),
 
-          // Next Button
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  stepIndex = 1; // Move to the second screen
-                });
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Next Page"),
-                  SizedBox(width: 5),
-                  Icon(Icons.arrow_forward),
-                ],
-              ),
-            ),
+         SizedBox(height: 10),
+TextFormField(
+  controller: _lastNameController,
+  decoration: InputDecoration(
+    label: RichText(
+      text: const TextSpan(
+        text: 'Last Name ',
+        style: TextStyle(color: Colors.black, fontSize: 16.0),
+        children: [
+          TextSpan(
+            text: '*',
+            style: TextStyle(color: Colors.red),
           ),
+        ],
+      ),
+    ),
+    border: const OutlineInputBorder(),
+    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+  ),
+  autovalidateMode: AutovalidateMode.onUserInteraction,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Last name is required';
+    }
+    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+      return 'Please enter only letters';
+    }
+    return null;
+  },
+),
+SizedBox(height: 10),
+TextFormField(
+  controller: _positionController,
+  decoration: InputDecoration(
+    label: RichText(
+      text: const TextSpan(
+        text: 'Position ',
+        style: TextStyle(color: Colors.black, fontSize: 16.0),
+        children: [
+          TextSpan(
+            text: '*',
+            style: TextStyle(color: Colors.red),
+          ),
+        ],
+      ),
+    ),
+    border: const OutlineInputBorder(),
+    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+  ),
+  autovalidateMode: AutovalidateMode.onUserInteraction,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Position is required';
+    }
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+      return 'Please enter a valid position';
+    }
+    return null;
+  },
+),
+SizedBox(height: 10),
+TextFormField(
+  controller: _phoneNumberController,
+  decoration: InputDecoration(
+    label: RichText(
+      text: const TextSpan(
+        text: 'Phone Number ',
+        style: TextStyle(color: Colors.black, fontSize: 16.0),
+        children: [
+          TextSpan(
+            text: '*',
+            style: TextStyle(color: Colors.red),
+          ),
+        ],
+      ),
+    ),
+    border: const OutlineInputBorder(),
+    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+  ),
+  keyboardType: TextInputType.phone,
+  autovalidateMode: AutovalidateMode.onUserInteraction,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (!RegExp(r'^\d+$').hasMatch(value)) {
+      return 'Please enter a valid phone number';
+    }
+    return null;
+  },
+),
+SizedBox(height: 20),
+         Center(
+  child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue[900],
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+    onPressed: () {
+      setState(() {
+        stepIndex = 1; // Move to second screen
+      });
+    },
+    child: const Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Next Page",
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+        SizedBox(width: 5),
+        Icon(Icons.arrow_forward, color: Colors.white),
+      ],
+    ),
+  ),
+)
+
         ],
       ),
     );
   }
 
+  // Second screen for uploading ID and additional inputs
   Widget buildSecondScreen() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 60,),
+          const SizedBox(height: 60),
           Row(
-                    mainAxisAlignment: MainAxisAlignment.center,  // Centers the content horizontally
-                    children: [
-                      Image.asset(
-                        'assets/logo/jobsync_logo.png', // Path to your logo
-                        height: 50.0, // Adjust the height as needed
-                      ),
-                      const SizedBox(width: 8.0),  // Add space between the logo and text
-                      const Text(
-                        'JobSync',
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // You can change the color as needed
-                        ),
-                      ),
-                    ],
-                  ),
-          SizedBox(height: 20),
-
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/logo/jobsync_logo.png',
+                height: 50.0,
+              ),
+              const SizedBox(width: 8.0),
+              const Text(
+                'JobSync',
+                style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
           Text(
-            "Create Account.",
+            "ID Verification",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          //SizedBox(height: 5),
-          Row(
+          /*Row(
             children: [
               Text("Already have an account? "),
               GestureDetector(
                 onTap: () {
-                  // Navigate to login screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignScreen()),
+                  );
                 },
                 child: Text(
                   "Log In",
@@ -294,88 +384,346 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
                 ),
               ),
             ],
-          ),
-          SizedBox(height: 20),
+          ),*/
+          const SizedBox(height: 20),
+        Text("Upload the front side of your Government ID *"),
+Container(
+  height: 150,
+  decoration: BoxDecoration(
+    border: Border.all(color: Colors.grey),
+    borderRadius: BorderRadius.circular(8),
+  ),
+  child: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.photo, size: 50, color: Colors.grey),
+        Text("Browse photo"),
+      ],
+    ),
+  ),
+),
+SizedBox(height: 10),
+Text("Upload the back side of your Government ID *"),
+Container(
+  height: 150,
+  decoration: BoxDecoration(
+    border: Border.all(color: Colors.grey),
+    borderRadius: BorderRadius.circular(8),
+  ),
+  child: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.photo, size: 50, color: Colors.grey),
+        Text("Browse photo"),
+      ],
+    ),
+  ),
+),
+SizedBox(height: 10),
+Row(
+  mainAxisAlignment: MainAxisAlignment.center, // Center the row content
+  children: [
+    Text("Take a Selfie: "),
+    SizedBox(width: 10), // Add space between text and button
+    ElevatedButton.icon(
+      icon: Icon(Icons.camera_alt, color: Colors.white),
+      label: Text(
+        "Open Camera",
+        style: TextStyle(color: Colors.white), // Set text color to white
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue[900], // Button background color
+        padding: EdgeInsets.symmetric(vertical: 16),
+        minimumSize: Size(150, 48), // Set width and height
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPressed: () {
+        // Implement camera opening logic here
+      },
+    ),
+  ],
+),
 
-          // Upload ID Section
-          Text("Upload valid ID *"),
-          Container(
-            height: 150,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
+
+
+
+          const SizedBox(height: 20),
+           Row(
+  children: [
+    Expanded(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          //side: BorderSide(color: Colors.blue[900]!), // Border color
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            stepIndex = 0; // Go back to the first screen
+          });
+        },
+        child: const Text(
+          "Back",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+        ),
+      ),
+    ),
+    const SizedBox(width: 10),
+    Expanded(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue[900],
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {
+      setState(() {
+        stepIndex = 2; // Move to second screen
+      });
+    },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Next Page",
+              style: TextStyle(fontSize: 16, color: Colors.white),
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.photo, size: 50, color: Colors.grey),
-                  Text("Browse photo or drop here"),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
+            SizedBox(width: 5),
+            Icon(Icons.arrow_forward, color: Colors.white),
+          ],
+        ),
+      ),
+    ),
+  ],
+)
 
-          // Input Fields for Step 2
-          TextField(
-            decoration: InputDecoration(labelText: "Email Address *"),
-          ),
-          SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(labelText: "Password *"),
-            obscureText: true,
-          ),
-          SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(labelText: "Confirm Password *"),
-            obscureText: true,
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              Checkbox(value: true, onChanged: (value) {}),
-              Expanded(
-                child: Text(
-                  "I’ve read and agree with your Terms of services",
-                  style: TextStyle(fontSize: 14),
-                ),
-              ),
-            ],
-          ),
-
-          // Back and Next Buttons
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      stepIndex = 0; // Go back to the first screen
-                    });
-                  },
-                  child: Text("Back"),
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Submit action
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Next Page"),
-                      Icon(Icons.arrow_forward),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
   }
+
+  // Third screen for email, password, and terms agreement
+  Widget buildThirdScreen() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 60),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/logo/jobsync_logo.png',
+                height: 50.0,
+              ),
+              const SizedBox(width: 8.0),
+              const Text(
+                'JobSync',
+                style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            "Create Account.",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          /*Row(
+            children: [
+              Text("Already have an account? "),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignScreen()),
+                  );
+                },
+                child: Text(
+                  "Log In",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),*/
+          const SizedBox(height: 20),
+          // Email input
+  TextFormField(
+                controller: _emailController,
+                  decoration: InputDecoration(
+                  label: RichText(
+                  text: const TextSpan(
+                  text: 'Email Address ',
+                  style: TextStyle(color: Colors.black, fontSize: 16.0),
+                  children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
+                ),
+              ),
+            border: const OutlineInputBorder(),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+          ),
+              keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                  return 'Please enter a valid email address';
+                } 
+                    return null;
+                },
+      ),
+            const SizedBox(height: 15.0),
+                // Password field
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: !_showPassword,
+                    decoration: InputDecoration(
+                    label: RichText(
+                    text: const TextSpan(
+                    text: 'Password ',
+                    style: TextStyle(color: Colors.black, fontSize: 16.0),
+                    children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
+                  ),
+                ),
+                border: const OutlineInputBorder(),
+                contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                  suffixIcon: IconButton(
+                  icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+                  onPressed: _togglePasswordVisibility,
+                ),
+              ),
+                    validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        if (value.length < 8) {
+                          return 'Password must be at least 8 characters long';
+                        }
+                        if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                          return 'Password must include at least one uppercase letter';
+                        }
+                        if (!RegExp(r'[a-z]').hasMatch(value)) {
+                          return 'Password must include at least one lowercase letter';
+                        }
+                        if (!RegExp(r'[0-9!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                          return 'Password must include at least one number or symbol';
+                        }
+                        return null;
+                      },
+                ),
+                const SizedBox(height: 15.0),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  obscureText: !_showConfirmPassword,
+                    decoration: InputDecoration(
+                    label: RichText(
+                    text: const TextSpan(
+                    text: 'Confirm Password ',
+                    style: TextStyle(color: Colors.black, fontSize: 16.0),
+                    children: [TextSpan(text: '*', style: TextStyle(color: Colors.red))],
+                  ),
+                ),
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    suffixIcon: IconButton(
+                    icon: Icon(_showConfirmPassword ? Icons.visibility : Icons.visibility_off),
+                    onPressed: _toggleConfirmPasswordVisibility,
+                  ),
+                ),
+                    validator: (value) {
+                    if (value == null || value != _passwordController.text) {
+                    return 'Passwords do not match';
+                    }
+                    return null;
+                  },
+                ),
+          const SizedBox(height: 20),
+          // Agreement checkbox
+          Row(
+            children: [
+              Checkbox(
+                value: _isAgreed,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _isAgreed = value!;
+                  });
+                },
+              ),
+              Expanded(
+                child: Text(
+                  "I’ve read and agree with your Terms of Services",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+Row(
+  children: [
+    Expanded(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          //side: BorderSide(color: Colors.blue[900]!), // Border color
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            stepIndex = 1; // Go back to the first screen
+          });
+        },
+        child: const Text(
+          "Back",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+        ),
+      ),
+    ),
+    const SizedBox(width: 10),
+    Expanded(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue[900],
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {
+      setState(() {
+        stepIndex = 2; // Move to second screen
+      });
+    },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Create Account",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            SizedBox(width: 5),
+            Icon(Icons.arrow_forward, color: Colors.white),
+          ],
+        ),
+      ),
+    ),
+  ],
+)
+        ],
+      ),
+    );
+  }
+  
 }
