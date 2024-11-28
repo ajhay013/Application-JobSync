@@ -55,13 +55,13 @@ class _EmployerSignUpScreenState extends State<EmployerSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      resizeToAvoidBottomInset: true,
       body: stepIndex == 0 ? buildFirstScreen() : buildSecondScreen(),
     );
   }
 
   Widget buildFirstScreen() {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
