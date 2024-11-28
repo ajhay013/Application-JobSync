@@ -76,20 +76,24 @@ void _togglePasswordVisibility() {
             children: [
               Text("Already have an account? "),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignScreen()),
-                  );
-                },
-                child: Text(
-                  "Log In",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+  onTap: () {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => SignScreen(),
+        transitionDuration: Duration.zero, // Instant transition
+      ),
+    );
+  },
+  child: Text(
+    "Log In",
+    style: TextStyle(
+      color: Colors.blue,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+),
+
             ],
           ),
           const SizedBox(height: 15.0),
