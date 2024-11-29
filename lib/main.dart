@@ -110,13 +110,13 @@ Widget build(BuildContext context) {
                     children: [
                       Image.asset(
                         'assets/logo/jobsync_logo.png', // Path to your logo
-                        height: 50.0, // Adjust the height as needed
+                        height: 80, // Adjust the height as needed
                       ),
                       const SizedBox(width: 8.0),  // Add space between the logo and text
                       const Text(
                         'JobSync',
                         style: TextStyle(
-                          fontSize: 32.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.black, // You can change the color as needed
                         ),
