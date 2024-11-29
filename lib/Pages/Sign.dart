@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:capstone/main.dart';  // Ensure this is correct
+import 'package:capstone/main.dart';
 import 'package:capstone/Pages/ForgotPassword.dart';
+//import 'package:capstone/Pages/RegistrationForm.dart'; // Assuming you have this import
 
 class SignScreen extends StatefulWidget {
   const SignScreen({super.key});
@@ -17,7 +18,6 @@ class _SignScreenState extends State<SignScreen> {
 
   bool _showPassword = false;
   bool _rememberMe = false;
-  //String _selectedRole = "Candidate";
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -25,15 +25,8 @@ class _SignScreenState extends State<SignScreen> {
     });
   }
 
-  /*void _selectRole(String role) {
-    setState(() {
-      _selectedRole = role;
-    });
-  }*/
-
   void _validateAndSubmit() {
     if (_formKey.currentState!.validate()) {
-      // Proceed with the login logic
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Form Submitted Successfully')),
       );
@@ -94,52 +87,50 @@ class _SignScreenState extends State<SignScreen> {
               ),
               const SizedBox(height: 10),
               Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  icon: Icon(Icons.person, color: _isCandidate ? Colors.white : Colors.black),
-                  label: const Text('Candidate'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _isCandidate ? Colors.blue[900] : Colors.grey[1000],
-                    foregroundColor: _isCandidate ? Colors.white : Colors.black,
-                    //side: const BorderSide(color: Colors.grey),
-                    padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 12),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.person, color: _isCandidate ? Colors.white : Colors.black),
+                    label: const Text('Candidate'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _isCandidate ? Colors.blue[900] : Colors.grey[1000],
+                      foregroundColor: _isCandidate ? Colors.white : Colors.black,
+                      padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 12),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                        ),
                       ),
                     ),
+                    onPressed: () {
+                      setState(() {
+                        _isCandidate = true;
+                      });
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isCandidate = true;
-                    });
-                  },
-                ),
-                ElevatedButton.icon(
-                  icon: Icon(Icons.apartment, color: !_isCandidate ? Colors.white : Colors.black),
-                  label: const Text('Employers'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: !_isCandidate ? Colors.blue[900] : Colors.grey[1000],
-                    foregroundColor: !_isCandidate ? Colors.white : Colors.black,
-                    //side: const BorderSide(color: Colors.grey),
-                    padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 12),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.apartment, color: !_isCandidate ? Colors.white : Colors.black),
+                    label: const Text('Employers'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: !_isCandidate ? Colors.blue[900] : Colors.grey[1000],
+                      foregroundColor: !_isCandidate ? Colors.white : Colors.black,
+                      padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 12),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(8),
+                          bottomRight: Radius.circular(8),
+                        ),
                       ),
                     ),
+                    onPressed: () {
+                      setState(() {
+                        _isCandidate = false;
+                      });
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isCandidate = false;
-                    });
-                  },
-                ),
-              ],
-            ),
+                ],
+              ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -162,32 +153,27 @@ class _SignScreenState extends State<SignScreen> {
                   ),
                 ],
               ),
-
-              //EMAIL
               const SizedBox(height: 20),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: "Email",
-                      border: OutlineInputBorder(),
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        labelText: "Email",
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                  ),
-
-
-                    //PASSWORD
                     const SizedBox(height: 10),
                     TextFormField(
                       controller: _passwordController,
@@ -221,7 +207,6 @@ class _SignScreenState extends State<SignScreen> {
                         return null;
                       },
                     ),
-
                   ],
                 ),
               ),
@@ -244,14 +229,14 @@ class _SignScreenState extends State<SignScreen> {
                   TextButton(
                     onPressed: () {
                       Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            ForgotPasswordScreen(),
-                        transitionDuration: Duration.zero, // No animation
-                        reverseTransitionDuration: Duration.zero, // No reverse animation
-                      ),
-                    );
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation, secondaryAnimation) =>
+                              ForgotPasswordScreen(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
                     },
                     child: const Text("Forgot Password", style: TextStyle(color: Colors.blue)),
                   ),
@@ -266,36 +251,38 @@ class _SignScreenState extends State<SignScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  
                 ),
                 child: const Text("Sign In", style: TextStyle(color: Colors.white)),
               ),
-              const SizedBox(height: 16.0),
-              const Text(
+              // Conditional rendering of "or" and Google button (only for candidates)
+              if (_isCandidate) ...[
+                const SizedBox(height: 16.0),
+                const Text(
                   '- or -',
                   textAlign: TextAlign.center,
                 ),
-              const SizedBox(height: 16.0),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: Padding(
-                  padding: const EdgeInsets.only(right: 1.0), // Optional, to give space between the image and text
-                  child: Image.asset(
-                    'assets/logo/google_logo.png', // Add your Google logo path here
-                    height: 24.0, // Adjust the height to fit your design
+                const SizedBox(height: 16.0),
+                OutlinedButton.icon(
+                  onPressed: () {},
+                  icon: Padding(
+                    padding: const EdgeInsets.only(right: 1.0),
+                    child: Image.asset(
+                      'assets/logo/google_logo.png',
+                      height: 24.0,
+                    ),
+                  ),
+                  label: const Text("Continue with Google"),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    minimumSize: const Size(double.infinity, 50),
+                    side: const BorderSide(color: Colors.grey),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
-                label: const Text("Continue with Google"),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  minimumSize: const Size(double.infinity, 50),
-                  side: const BorderSide(color: Colors.grey),
-                  padding: EdgeInsets.symmetric(vertical: 16), // Same padding as in the second button
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), 
-                  )
-                ),
-              ),
+              ],
             ],
           ),
         ),
@@ -303,57 +290,3 @@ class _SignScreenState extends State<SignScreen> {
     );
   }
 }
-/*
-const SizedBox(height: 10),                       
-              SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[900],
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  // Handle reset password logic here
-                },
-child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Sign in',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    SizedBox(width: 5),
-                    Icon(Icons.arrow_forward, color: Colors.white),
-                  ],
-                ),
-              ),
-            ),
-const SizedBox(height: 16.0),
-              const Text(
-                  '- or -',
-                  textAlign: TextAlign.center,
-                ),
-              const SizedBox(height: 16.0),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: Padding(
-                  padding: const EdgeInsets.only(right: 1.0), // Optional, to give space between the image and text
-                  child: Image.asset(
-                    'assets/logo/google_logo.png', // Add your Google logo path here
-                    height: 24.0, // Adjust the height to fit your design
-                  ),
-                ),
-                label: const Text("Continue with Google"),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  minimumSize: const Size(double.infinity, 50),
-                  side: const BorderSide(color: Colors.grey),
-                  padding: EdgeInsets.symmetric(vertical: 16), // Same padding as in the second button
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), 
-                  )
-                ),
-              ),*/

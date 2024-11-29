@@ -309,11 +309,12 @@ TextFormField(
   },
 ),
 SizedBox(height: 20),
-         Center(
+         SizedBox(
+  width: MediaQuery.of(context).size.width - 32, // Match TextFormField width (adjust 32 for padding)
   child: ElevatedButton(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.blue[900],
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 16), // Adjust vertical padding
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -324,6 +325,7 @@ SizedBox(height: 20),
       });
     },
     child: const Row(
+      mainAxisAlignment: MainAxisAlignment.center, // Center-align content
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
@@ -335,7 +337,8 @@ SizedBox(height: 20),
       ],
     ),
   ),
-)
+),
+
 
         ],
       ),
@@ -456,13 +459,44 @@ Row(
 
 
           const SizedBox(height: 20),
-           Row(
+           Column(
   children: [
-    Expanded(
+    // Next Page Button
+    SizedBox(
+      width: double.infinity, // Make it stretch to full width
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue[900],
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            stepIndex = 2; // Move to the second screen
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Next Page",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            SizedBox(width: 5),
+            Icon(Icons.arrow_forward, color: Colors.white),
+          ],
+        ),
+      ),
+    ),
+    const SizedBox(height: 10), // Space between buttons
+    // Back Button
+    SizedBox(
+      width: double.infinity, // Make it stretch to full width
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          //side: BorderSide(color: Colors.blue[900]!), // Border color
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -478,36 +512,9 @@ Row(
         ),
       ),
     ),
-    const SizedBox(width: 10),
-    Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue[900],
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        onPressed: () {
-      setState(() {
-        stepIndex = 2; // Move to second screen
-      });
-    },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              "Next Page",
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            SizedBox(width: 5),
-            Icon(Icons.arrow_forward, color: Colors.white),
-          ],
-        ),
-      ),
-    ),
   ],
 )
+
 
         ],
       ),
@@ -655,57 +662,62 @@ Row(
             ],
           ),
           const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      stepIndex = 1; // Go back to the first screen
-                    });
-                  },
-                  child: const Text(
-                    "Back",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[900],
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      stepIndex = 2; // Move to second screen
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Create Account",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                      SizedBox(width: 5),
-                      Icon(Icons.arrow_forward, color: Colors.white),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+Column(
+  children: [
+    // Create Account Button
+    SizedBox(
+      width: double.infinity, // Make it stretch to full width
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue[900],
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
+        ),
+        onPressed: () {
+          setState(() {
+            stepIndex = 2; // Move to second screen
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Create Account",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            SizedBox(width: 5),
+            Icon(Icons.arrow_forward, color: Colors.white),
+          ],
+        ),
+      ),
+    ),
+    const SizedBox(height: 10), // Space between buttons
+    // Back Button
+    SizedBox(
+      width: double.infinity, // Make it stretch to full width
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            stepIndex = 1; // Go back to the first screen
+          });
+        },
+        child: const Text(
+          "Back",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+        ),
+      ),
+    ),
+  ],
+)
+
         ],
       ),
     ),
