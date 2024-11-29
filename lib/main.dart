@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:capstone/Pages/Sign.dart';
 import 'package:capstone/Pages/SignEmployer.dart';
+import 'package:http/http.dart' as http;
 void main() {
   runApp(MyApp());
 }
@@ -62,6 +63,32 @@ class _RegistrationFormState extends State<RegistrationForm> {
     super.dispose();
   }
 
+ Future<void> _submitForm() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final response = await http.post(
+        Uri.parse('http://your-server-url/insert_user.php'),  // Replace with actual URL
+        body: {
+          'first_name': _firstNameController.text,
+          'middle_name': _middleNameController.text,
+          'last_name': _lastNameController.text,
+          'suffix': _suffixController.text,
+          'gender': _selectedGender ?? '',
+          'contact_number': _contactController.text,
+          'email': _emailController.text,
+          'password': _passwordController.text,
+          'is_candidate': _isCandidate ? '1' : '0',
+          'is_agreed': _isAgreed ? '1' : '0',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Form submitted successfully');
+      } else {
+        print('Failed to submit form');
+      }
+    }
+  }
+
   void _togglePasswordVisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -74,7 +101,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     });
   }
 
-  void _submitForm() {
+  /*void _submitForm() {
     if (_formKey.currentState?.validate() == true && _isAgreed) {
       // Perform registration (e.g., API call or save to database)
       ScaffoldMessenger.of(context).showSnackBar(
@@ -85,7 +112,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         const SnackBar(content: Text('Please agree to the Terms of Service')),
       );
     }
-  }
+  }*/
 
 @override
 Widget build(BuildContext context) {
