@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(JobSyncApp());
+}
+
+class JobSyncApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: JobSyncHomePage(),
+    );
+  }
+}
+
+class JobSyncHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1,
+        leading: Icon(Icons.menu, color: Colors.black),
+        title: Row(
+          children: [
+            Text(
+              'Jobsync',
+              style: TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Sign In',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+            ),
+            child: Text('Post A Job'),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.flag, color: Colors.blue),
+                  SizedBox(width: 8),
+                  Text('PH', style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Job title, keyword, company',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 32),
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Find a job that suits',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'your interest & skills.',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Image.asset(
+                      'assets/Illustration.png', // Replace with your custom asset
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Suggestion: Designer, Programming, Digital\n'
+                      'Marketing, Video, Animation',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
