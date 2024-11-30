@@ -99,7 +99,7 @@ class JobSyncHomePage extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Image.asset(
-                      'assets/Illustration.png', // Replace with your custom asset
+                      'assets/logo/Illustration.png', // Replace with your custom asset
                       height: 200,
                       fit: BoxFit.cover,
                     ),
