@@ -22,8 +22,13 @@ class JobSyncHomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         leading: Icon(Icons.menu, color: Colors.black),
-        title: Row(
+         title: Row(
           children: [
+            Image.asset(
+              'assets/logo/jobsync_logo.png', // Replace with your logo path
+              height: 30,
+            ),
+            SizedBox(width: 8), // Adds some spacing between the logo and text
             Text(
               'Jobsync',
               style: TextStyle(
