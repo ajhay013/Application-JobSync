@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:capstone/Pages/Sign.dart';
 import 'package:capstone/Pages/SignEmployer.dart';
+import 'package:http/http.dart' as http;
+import 'package:capstone/Pages/EmailVerification.dart';
 void main() {
   runApp(MyApp());
 }
@@ -62,6 +64,33 @@ class _RegistrationFormState extends State<RegistrationForm> {
     super.dispose();
   }
 
+ Future<void> _submitForm() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final response = await http.post(
+        Uri.parse('http://192.168.1.12/jobsync/insert_user.php'),  // Replace with actual URL
+        body: {
+  'firstname': _firstNameController.text,
+  'middlename': _middleNameController.text,
+  'lastname': _lastNameController.text,
+  'suffix': _suffixController.text,
+  'gender': _selectedGender ?? '',
+  'contact': _contactController.text,
+  'email': _emailController.text,
+  'password': _passwordController.text,
+  'is_candidate': _isCandidate ? '1' : '0',
+  'is_agreed': _isAgreed ? '1' : '0',
+},
+
+      );
+
+      if (response.statusCode == 200) {
+        print('Form submitted successfully');
+      } else {
+        print('Failed to submit form');
+      }
+    }
+  }
+
   void _togglePasswordVisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -74,7 +103,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     });
   }
 
-  void _submitForm() {
+  /*void _submitForm() {
     if (_formKey.currentState?.validate() == true && _isAgreed) {
       // Perform registration (e.g., API call or save to database)
       ScaffoldMessenger.of(context).showSnackBar(
@@ -85,7 +114,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         const SnackBar(content: Text('Please agree to the Terms of Service')),
       );
     }
-  }
+  }*/
 
 @override
 Widget build(BuildContext context) {
@@ -110,13 +139,13 @@ Widget build(BuildContext context) {
                     children: [
                       Image.asset(
                         'assets/logo/jobsync_logo.png', // Path to your logo
-                        height: 50.0, // Adjust the height as needed
+                        height: 80, // Adjust the height as needed
                       ),
                       const SizedBox(width: 8.0),  // Add space between the logo and text
                       const Text(
                         'JobSync',
                         style: TextStyle(
-                          fontSize: 32.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.black, // You can change the color as needed
                         ),
@@ -266,9 +295,10 @@ TextFormField(
       return 'First name is required';
     }
     // Check if the value contains only letters
-    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-      return 'Please enter only letters';
-    }
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+  return 'Please enter only letters and spaces';
+}
+
     return null; // Validation passes if the input is valid
   },
 ),
@@ -584,6 +614,50 @@ const SizedBox(height: 15.0),
       ),
           const SizedBox(height: 16.0),
             ElevatedButton(
+  onPressed: () {
+    if (_emailController.text.isNotEmpty && _emailController.text.contains('@')) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmailVerificationScreen(
+            email: _emailController.text, // Pass the email from the controller
+          ),
+        ),
+      );
+    } else {
+      // Optionally, show a warning or validation
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a valid email address')),
+      );
+    }
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.blue[900],
+    padding: EdgeInsets.symmetric(vertical: 16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        'Create Account',
+        style: TextStyle(color: Colors.white),
+      ),
+      SizedBox(width: 8.0),
+      Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+      ),
+    ],
+  ),
+),
+
+
+
+
+/*ElevatedButton(
             onPressed: _submitForm,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue[900], // Set the button's background color to blue
@@ -607,6 +681,12 @@ const SizedBox(height: 15.0),
               ],
             ),
           ),
+*/
+
+
+
+
+
               const SizedBox(height: 16.0),
               const Text(
                   '- or -',
