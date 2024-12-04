@@ -32,6 +32,9 @@ flutter:
   assets:
     - assets/logo/jobsync_logo.png  # Add other assets like your logo
     - assets/logo/google_logo.png
+    - assets/logo/Illustration.png
+    - assets/flags/ph.png
+    - assets/flags/us.png
 # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
