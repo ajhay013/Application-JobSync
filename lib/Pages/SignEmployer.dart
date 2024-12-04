@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:capstone/main.dart';
 import 'package:capstone/Pages/Sign.dart';
 
+
 class EmployerSignUpScreen extends StatefulWidget {
   @override
   _EmployerSignUpScreenState createState() => _EmployerSignUpScreenState();
