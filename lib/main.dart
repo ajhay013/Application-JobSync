@@ -642,7 +642,7 @@ const SizedBox(height: 15.0),
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
-        'Create Account.',
+        'Create Account',
         style: TextStyle(color: Colors.white),
       ),
       SizedBox(width: 8.0),
