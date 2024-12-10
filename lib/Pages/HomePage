@@ -101,9 +101,9 @@ class JobSyncApp extends StatelessWidget {
                       alignment: WrapAlignment.center,
                       children: [
                         buildStatCard('assets/icons/briefcase.png','1,752,324', 'Live Job'),
-                        buildStatCard('1,752,324', 'Companies'),
-                        buildStatCard('1,752,324', 'Candidates'),
-                        buildStatCard('1,752,324', 'New Jobs'),
+                        buildStatCard('assets/icons/buildings.png','1,752,324', 'Companies'),
+                        buildStatCard('assets/icons/users.png','1,752,324', 'Candidates'),
+                        buildStatCard('assets/icons/briefcase.png','1,752,324', 'New Jobs'),
                       ],
                     ),
                   ],
@@ -134,6 +134,39 @@ class JobSyncApp extends StatelessWidget {
     );
   }
 }
+Widget buildStatCard(String iconPath, String count, String label) {
+    return Container(
+      width: 150,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            iconPath,
+            height: 36, // Adjust the size of the icon
+            width: 36,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 8),
+          Text(
+            count,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 4),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
+    );
+  }
+
 
 void main() {
   runApp(JobSyncApp());
