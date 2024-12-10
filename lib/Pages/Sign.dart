@@ -248,7 +248,11 @@ class _SignScreenState extends State<SignScreen> {
   onPressed: () {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => JobSyncApp()),
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => JobSyncApp(),
+        transitionDuration: Duration.zero, // Removes transition animations
+        reverseTransitionDuration: Duration.zero,
+      ),
     );
   },
   style: ElevatedButton.styleFrom(
@@ -260,6 +264,7 @@ class _SignScreenState extends State<SignScreen> {
   ),
   child: const Text("Sign In", style: TextStyle(color: Colors.white)),
 ),
+
 
               // Conditional rendering of "or" and Google button (only for candidates)
               if (_isCandidate) ...[

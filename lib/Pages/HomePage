@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:capstone/Pages/Sign.dart';
 
 class JobSyncApp extends StatelessWidget {
   @override
@@ -22,7 +23,14 @@ class JobSyncApp extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => SignScreen(), // Your login screen class
+                    transitionDuration: Duration.zero, // Instant transition
+                    reverseTransitionDuration: Duration.zero, // Instant reverse transition
+                  ),
+                );},
               child: Text('Sign In', style: TextStyle(color: Colors.black)),
             ),
             TextButton(
@@ -42,17 +50,17 @@ class JobSyncApp extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1),
+                        //border: Border.all(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: Row(
-                        /*children: [
-                          Image.asset('assets/philippines_flag.png', width: 24),
+                        children: [
+                          Image.asset('assets/flags/ph.png', width: 24),
                           SizedBox(width: 8),
                           Text('PH'),
-                          Icon(Icons.arrow_drop_down),
-                        ],*/
+                          //Icon(Icons.arrow_drop_down),
+                        ],
                       ),
                     ),
                     SizedBox(width: 16),
@@ -79,23 +87,23 @@ class JobSyncApp extends StatelessWidget {
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
+                    Image.asset('assets/logo/Illustration.png', height: 150),
+                    SizedBox(height: 16),
                     Text(
                       'Suggestion: Designer, Programming, Digital Marketing, Video, Animation',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(height: 16),
-                    Image.asset('assets/logo/home.png', height: 150), // Add your illustration image
+                      style: TextStyle(color: Colors.black),
+                    ), // Add your illustration image
                     SizedBox(height: 16),
                     Wrap(
                       spacing: 16,
                       runSpacing: 16,
                       alignment: WrapAlignment.center,
                       children: [
-                        buildStatCard('1,75,324', 'Live Job'),
-                        buildStatCard('1,75,324', 'Companies'),
-                        buildStatCard('1,75,324', 'Candidates'),
-                        buildStatCard('1,75,324', 'New Jobs'),
+                        buildStatCard('assets/icons/briefcase.png','1,752,324', 'Live Job'),
+                        buildStatCard('1,752,324', 'Companies'),
+                        buildStatCard('1,752,324', 'Candidates'),
+                        buildStatCard('1,752,324', 'New Jobs'),
                       ],
                     ),
                   ],
@@ -104,7 +112,7 @@ class JobSyncApp extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ),debugShowCheckedModeBanner: false,
     );
   }
 
