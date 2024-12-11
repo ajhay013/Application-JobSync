@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:capstone/main.dart';
 import 'package:capstone/Pages/ForgotPassword.dart';
-import 'package:capstone/Pages/Homepage';
+import 'package:capstone/Pages/HomePage.dart';
 //import 'package:capstone/Pages/RegistrationForm.dart'; // Assuming you have this import
 
 class SignScreen extends StatefulWidget {
