@@ -1,166 +1,110 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(JobSyncApp());
-}
+import 'package:capstone/Pages/Sign.dart';
 
 class JobSyncApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: JobSyncHomePage(),
-    );
-  }
-}
-
-class JobSyncHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        leading: Icon(Icons.menu, color: Colors.black),
-         title: Row(
-          children: [
-            Image.asset(
-              'assets/logo/jobsync_logo.png', // Replace with your logo path
-              height: 30,
-            ),
-            SizedBox(width: 8), // Adds some spacing between the logo and text
-            Text(
-              'Jobsync',
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.menu, color: Colors.black),
             onPressed: () {},
-            child: Text(
-              'Sign In',
-              style: TextStyle(color: Colors.black),
-            ),
           ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-            ),
-            child: Text('Post A Job'),
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Navigation Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                // Handle Home navigation
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.work),
-              title: Text('Jobs'),
-              onTap: () {
-                // Handle Jobs navigation
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
-              onTap: () {
-                // Handle Profile navigation
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () {
-                // Handle Logout
-              },
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.flag, color: Colors.blue),
-                  SizedBox(width: 8),
-                  Text('PH', style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Job title, keyword, company',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        prefixIcon: Icon(Icons.search),
+              Image.asset('assets/logo/jobsync_logo.png', height: 40), // Add your logo image
+              SizedBox(width: 8),
+              Text('Jobsync', style: TextStyle(color: Colors.black)),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => SignScreen(), // Your login screen class
+                    transitionDuration: Duration.zero, // Instant transition
+                    reverseTransitionDuration: Duration.zero, // Instant reverse transition
+                  ),
+                );},
+              child: Text('Sign In', style: TextStyle(color: Colors.black)),
+            ),
+            TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(backgroundColor: Colors.blue),
+              child: Text('Post A Job', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        //border: Border.all(color: Colors.black, width: 1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Image.asset('assets/flags/ph.png', width: 24),
+                          SizedBox(width: 8),
+                          Text('PH'),
+                          //Icon(Icons.arrow_drop_down),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Job title, keyword, company',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 32),
-              Center(
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
                     Text(
-                      'Find a job that suits',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'your interest & skills.',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Image.asset(
-                      'assets/logo/Illustration.png', // Replace with your custom asset
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'Suggestion: Designer, Programming, Digital\n'
-                      'Marketing, Video, Animation',
+                      'Find a job that suits your interest & skills.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Image.asset('assets/logo/Illustration.png', height: 150),
+                    SizedBox(height: 16),
+                    Text(
+                      'Suggestion: Designer, Programming, Digital Marketing, Video, Animation',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black),
+                    ), // Add your illustration image
+                    SizedBox(height: 16),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        buildStatCard('assets/icons/briefcase.png','1,752,324', 'Live Job'),
+                        buildStatCard('assets/icons/buildings.png','1,752,324', 'Companies'),
+                        buildStatCard('assets/icons/users.png','1,752,324', 'Candidates'),
+                        buildStatCard('assets/icons/briefcase.png','1,752,324', 'New Jobs'),
+                      ],
                     ),
                   ],
                 ),
@@ -168,7 +112,62 @@ class JobSyncHomePage extends StatelessWidget {
             ],
           ),
         ),
+      ),debugShowCheckedModeBanner: false,
+    );
+  }
+
+  Widget buildStatCard(String count, String label) {
+    return Container(
+      width: 120,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Text(count, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          SizedBox(height: 4),
+          Text(label, textAlign: TextAlign.center),
+        ],
       ),
     );
   }
+}
+Widget buildStatCard(String iconPath, String count, String label) {
+    return Container(
+      width: 150,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            iconPath,
+            height: 36, // Adjust the size of the icon
+            width: 36,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 8),
+          Text(
+            count,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 4),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+void main() {
+  runApp(JobSyncApp());
 }

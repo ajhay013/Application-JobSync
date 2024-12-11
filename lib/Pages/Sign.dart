@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:capstone/main.dart';
 import 'package:capstone/Pages/ForgotPassword.dart';
+import 'package:capstone/Pages/HomePage.dart';
 //import 'package:capstone/Pages/RegistrationForm.dart'; // Assuming you have this import
 
 class SignScreen extends StatefulWidget {
@@ -244,16 +245,27 @@ class _SignScreenState extends State<SignScreen> {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: _validateAndSubmit,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[900],
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text("Sign In", style: TextStyle(color: Colors.white)),
-              ),
+  onPressed: () {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => JobSyncApp(),
+        transitionDuration: Duration.zero, // Removes transition animations
+        reverseTransitionDuration: Duration.zero,
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.blue[900],
+    minimumSize: const Size(double.infinity, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+  child: const Text("Sign In", style: TextStyle(color: Colors.white)),
+),
+
+
               // Conditional rendering of "or" and Google button (only for candidates)
               if (_isCandidate) ...[
                 const SizedBox(height: 16.0),
