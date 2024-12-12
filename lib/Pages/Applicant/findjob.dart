@@ -31,27 +31,43 @@ class _FindJobState extends State<FindJob> {
   int currentPage = 1;
   int itemsPerPage = 12;
 
+
   @override
   void initState() {
     super.initState();
     fetchJobs();  // Fetch the jobs from API when component is initialized
   }
 
-  void fetchJobs() async {
+ void fetchJobs() async {
     // Simulate an API call to fetch jobs.
     setState(() {
       jobs = [
-        {'title': 'Software Developer', 'company': 'Company A'},
-        {'title': 'Data Scientist', 'company': 'Company B'},
-        // Add more job data here
+        {'title': 'Software Developer', 'company': 'Google Inc.', 'type': 'Full Time', 'salary': '₱100,000', 'location': 'Metro Manila'},
+        {'title': 'Data Scientist', 'company': 'Google Inc.', 'type': 'Part Time', 'salary': '₱40,000', 'location': 'Quezon City'},
+        {'title': 'Product Manager', 'company': 'Google Inc.', 'type': 'Internship', 'salary': '₱15,000', 'location': 'Makati'},
+        {'title': 'Marketing Specialist', 'company': 'Google Inc.', 'type': 'Full Time', 'salary': '₱50,000', 'location': 'Taguig'},
+        {'title': 'UI/UX Designer', 'company': 'Google Inc.', 'type': 'Part Time', 'salary': '₱30,000', 'location': 'Pasig'},
       ];
     });
   }
 
   void handleFilter() {
-    setState(() {
-      showFilter = !showFilter;
-    });
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return FilterModal(
+          activeFilters: activeFilters,
+          removeFilter: removeFilter,
+          handleIndustryChange: handleIndustryChange,
+          handleJobTypeChange: handleJobTypeChange,
+          handleSalaryRangeChange: handleSalaryRangeChange,
+          presetRanges: presetRanges,
+          industry: industry,
+          jobType: jobType,
+          salaryRange: salaryRange,
+        );
+      },
+    );
   }
 
   void handleJobTypeChange(String type) {
@@ -84,14 +100,13 @@ class _FindJobState extends State<FindJob> {
     }
   }
 
- void removeFilter(Map<String, String> filterToRemove) {
-  setState(() {
-    activeFilters.removeWhere((filter) =>
-        filter['type'] == filterToRemove['type'] &&
-        filter['value'] == filterToRemove['value']);
-  });
-}
-
+  void removeFilter(Map<String, String> filterToRemove) {
+    setState(() {
+      activeFilters.removeWhere((filter) =>
+          filter['type'] == filterToRemove['type'] &&
+          filter['value'] == filterToRemove['value']);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +119,16 @@ class _FindJobState extends State<FindJob> {
     final currentJobs = filteredJobs.skip((currentPage - 1) * itemsPerPage).take(itemsPerPage).toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Find Jobs')),
+      appBar: AppBar(
+        title: Text('Find Jobs'),
+        actions: [
+          // Filter button at the top right
+          IconButton(
+            icon: Icon(FontAwesomeIcons.filter),
+            onPressed: handleFilter,  // Open the filter modal
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -118,7 +142,9 @@ class _FindJobState extends State<FindJob> {
                     decoration: InputDecoration(
                       labelText: 'Job title, keyword, company',
                       prefixIcon: Icon(FontAwesomeIcons.search),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder( borderRadius: BorderRadius.circular(20),
+                      ),
+                      
                     ),
                     onChanged: (text) {
                       setState(() {}); // Trigger filtering when the user types
@@ -132,7 +158,8 @@ class _FindJobState extends State<FindJob> {
                     decoration: InputDecoration(
                       labelText: 'City, state, or zip code',
                       prefixIcon: Icon(FontAwesomeIcons.mapMarkerAlt),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                     onChanged: (text) {
                       setState(() {}); // Trigger filtering when the user types
@@ -143,55 +170,18 @@ class _FindJobState extends State<FindJob> {
             ),
             SizedBox(height: 16),
 
-            // Filter and Find Job Buttons
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: handleFilter,
-                  child: Row(
-                    children: [
-                      Icon(FontAwesomeIcons.filter),
-                      SizedBox(width: 8),
-                      Text('Filter'),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle find job functionality
-                  },
-                  child: Text('Find Job'),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-
             // Active Filters UI
             if (activeFilters.isNotEmpty)
               Wrap(
-  spacing: 8,
-  children: activeFilters.map((filter) {
-    return Chip(
-      label: Text('${filter['type']}: ${filter['value']}'),
-      deleteIcon: Icon(Icons.close),
-      onDeleted: () => removeFilter(filter),  
-    );
-  }).toList(),
-),
-
-            // Filter Dialog
-            if (showFilter)
-              FilterDialog(
-                activeFilters: activeFilters,
-                removeFilter: removeFilter,
-                handleIndustryChange: handleIndustryChange,
-                handleJobTypeChange: handleJobTypeChange,
-                handleSalaryRangeChange: handleSalaryRangeChange,
-                presetRanges: presetRanges,
-                industry: industry,
-                jobType: jobType,
-                salaryRange: salaryRange,
+                spacing: 8,
+                children: activeFilters.map((filter) {
+                  return Chip(
+                    label: Text('${filter['type']}: ${filter['value']}'),
+                    deleteIcon: Icon(Icons.close),
+                    onDeleted: () => removeFilter(filter),
+                    backgroundColor: Colors.grey[300],
+                  );
+                }).toList(),
               ),
 
             // Job Cards Display
@@ -233,17 +223,125 @@ class JobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Define colors for each job type
+    Color jobTypeColor = Colors.grey;  // Default color
+    String jobTypeText = job['type'] ?? 'Full Time';
+
+    if (jobTypeText == 'Full Time') {
+      jobTypeColor = Colors.green;
+    } else if (jobTypeText == 'Part Time') {
+      jobTypeColor = Colors.orange;
+    } else if (jobTypeText == 'Internship') {
+      jobTypeColor = Colors.blue;
+    }
+
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        title: Text(job['title']!),
-        subtitle: Text(job['company']!),
+      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Stack(
+          children: [
+            // Main content area (job details)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Job title and bookmark icon in a row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Job title
+                    Text(
+                      job['title']!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    // Bookmark Icon aligned to the top-right
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.bookmark),
+                      onPressed: () {
+                        // Add your bookmarking functionality here
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+
+                // Job Type and Salary in a row, placed close to each other
+                Row(
+                  children: [
+                    // Job Type with color
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: jobTypeColor,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        jobTypeText,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    // Salary display
+                    Text(
+                      '${job['salary'] ?? '70,000'}',
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+
+                // Company logo and name
+                Row(
+                  children: [
+                    // Increased company logo size
+                    CircleAvatar(
+                      radius: 40, // Increased from 20 to 30
+                      backgroundImage: AssetImage('assets/logo/google_logo.png'),
+                    ),
+                    SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          job['company']!,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        
+                        Text(
+                          job['location'] ?? 'Location not specified',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class FilterDialog extends StatelessWidget {
+
+class FilterModal extends StatelessWidget {
   final List<Map<String, String>> activeFilters;
   final Function removeFilter;
   final Function handleIndustryChange;
@@ -254,7 +352,7 @@ class FilterDialog extends StatelessWidget {
   final String jobType;
   final List<int> salaryRange;
 
-  FilterDialog({
+  FilterModal({
     required this.activeFilters,
     required this.removeFilter,
     required this.handleIndustryChange,
@@ -268,49 +366,144 @@ class FilterDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Filters'),
-      content: Column(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Industry Dropdown
-          DropdownButton<String>(
+           // Title for the modal aligned to the left
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Filter by',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
+          
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Based on your preferences',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          // Industry Filter
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Industry',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          // Industry Dropdown Styled as a Field
+          DropdownButtonFormField<String>(
             value: industry,
             onChanged: (value) => handleIndustryChange(value!),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              filled: true,
+              fillColor: Colors.grey[300],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
             items: ['Business', 'Tech', 'Finance'].map((e) {
               return DropdownMenuItem(child: Text(e), value: e);
             }).toList(),
           ),
+          SizedBox(height: 16),
 
-          // Job Type Dropdown
-          DropdownButton<String>(
+          // Job Type Filter
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Job Type',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          // Job Type Dropdown Styled as a Field
+          DropdownButtonFormField<String>(
             value: jobType,
             onChanged: (value) => handleJobTypeChange(value!),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              filled: true,
+              fillColor: Colors.grey[300],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
             items: ['Full Time', 'Part Time', 'Contract'].map((e) {
               return DropdownMenuItem(child: Text(e), value: e);
             }).toList(),
           ),
+          SizedBox(height: 16),
 
-          // Salary Range Options
-          Column(
-            children: presetRanges.map((range) {
-              final label = range['label'];
-              final salaryRange = range['range'] as List<int>;
-              return ListTile(
-                title: Text(label),
-                onTap: () => handleSalaryRangeChange(salaryRange),
+          // Salary Range Filter (Updated to Dropdown Styled as a Field)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Salary Range',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          // Salary Range Dropdown Styled as a Field
+          DropdownButtonFormField<List<int>>(
+          value: presetRanges.firstWhere((range) => 
+          range['range'] == salaryRange, orElse: () => presetRanges[0])['range'],
+          onChanged: (value) => handleSalaryRangeChange(value!),
+          decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          filled: true,
+          fillColor: Colors.grey[300],
+          border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+            ),
+          ),
+          items: presetRanges.map((range) {
+          final label = range['label'];
+          final salaryRange = range['range'] as List<int>;
+          return DropdownMenuItem<List<int>>(
+          value: salaryRange,
+          child: Text(label!),
               );
             }).toList(),
           ),
+
         ],
       ),
-      actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text('Close')),
-      ],
     );
   }
 }
-
 class Pagination extends StatelessWidget {
   final int currentPage;
   final int itemsPerPage;

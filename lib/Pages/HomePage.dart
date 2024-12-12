@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:capstone/Pages/Sign.dart';
 import 'package:capstone/components/jobsyncflow.dart';
 import 'package:capstone/components/popularcategories.dart';
-import 'package:capstone/components/footer.dart'; 
 import 'package:capstone/pages/Applicant/findjob.dart';
+import 'package:capstone/pages/Applicant/findemployer.dart';
 
 class JobSyncApp extends StatelessWidget {
   @override
@@ -92,7 +92,10 @@ class JobSyncApp extends StatelessWidget {
                 leading: Icon(Icons.business),
                 title: Text('Employers'),
                 onTap: () {
-                  // TODO: Implement navigation to Employers screen
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FindEmployer()),
+                  );
                 },
               ),
               ListTile(
@@ -197,7 +200,7 @@ class JobSyncApp extends StatelessWidget {
                   ],
                 ),
               ),
-              Footer(), // Added the Footer widget here
+             
             ],
           ),
         ),
