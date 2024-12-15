@@ -67,7 +67,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
  Future<void> _submitForm() async {
     if (_formKey.currentState?.validate() ?? false) {
       final response = await http.post(
-        Uri.parse('http://192.168.1.12/jobsync/insert_user.php'),  // Replace with actual URL
+        Uri.parse('http://192.168.1.13/jobsync/insert_user.php'),  // Replace with actual URL
         body: {
   'firstname': _firstNameController.text,
   'middlename': _middleNameController.text,
@@ -613,7 +613,7 @@ const SizedBox(height: 15.0),
         ],
       ),
           const SizedBox(height: 16.0),
-            ElevatedButton(
+            /*ElevatedButton(
   onPressed: () {
     if (_emailController.text.isNotEmpty && _emailController.text.contains('@')) {
       Navigator.push(
@@ -652,11 +652,59 @@ const SizedBox(height: 15.0),
       ),
     ],
   ),
+),*/
+
+
+
+
+//TOTOO 
+ElevatedButton(
+  onPressed: () {
+    if (_emailController.text.isNotEmpty && _emailController.text.contains('@')) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmailVerificationScreen(
+            email: _emailController.text, // Pass the email from the controller
+          ),
+        ),
+      );
+    } else {
+      // Show a warning or validation message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a valid email address')),
+      );
+    }
+    _submitForm(); // Call the form submission method
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.blue[900], // Set the button's background color to blue
+    padding: EdgeInsets.symmetric(vertical: 16), // Set padding
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8), // Set border radius
+    ),
+  ),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        'Create Account',
+        style: TextStyle(color: Colors.white), // Set text color to white
+      ),
+      SizedBox(width: 8.0),
+      Icon(
+        Icons.arrow_forward,
+        color: Colors.white, // Set the icon color to white
+      ),
+    ],
+  ),
 ),
 
 
 
 
+
+//BACKUP
 /*ElevatedButton(
             onPressed: _submitForm,
             style: ElevatedButton.styleFrom(
@@ -680,8 +728,8 @@ const SizedBox(height: 15.0),
                 ),
               ],
             ),
-          ),
-*/
+          ),*/
+
 
 
 

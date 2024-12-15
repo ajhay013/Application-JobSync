@@ -197,6 +197,7 @@ class JobSyncApp extends StatelessWidget {
                     JobSyncFlow(),
                     SizedBox(height: 32),
                     PopularCategories(),
+
                   ],
                 ),
               ),

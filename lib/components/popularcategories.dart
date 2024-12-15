@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PopularCategories extends StatelessWidget {
-  // Define categories as a list of maps
   final List<Map<String, dynamic>> categories = [
     {'icon': Icons.brush, 'title': 'Graphics & Design', 'positions': 357},
     {'icon': Icons.code, 'title': 'Code & Programming', 'positions': 357},
@@ -15,75 +14,78 @@ class PopularCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
-      child: Column(
-        children: [
-          Text(
-            'Popular Categories',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 20),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Two items per row
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2.0, // Adjust aspect ratio to control the card size
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Popular Categories',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              final category = categories[index];
-              return Container(
-                width: 150, // Custom width for the card
-                height: 120, // Custom height for the card
-                child: Card(
-                  elevation: 3, // Reduced elevation for a cleaner look
+            SizedBox(height: 20),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 2.5,
+              ),
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                return Card(
+                  elevation: 3,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Smaller radius for a more compact look
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Adjusted padding
+                    padding: const EdgeInsets.all(12.0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min, // Minimizes the row's size
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
                           category['icon'],
-                          size: 30, // Adjusted icon size for better fit
+                          size: 30,
                           color: Color(0xFF3498DB),
                         ),
-                        SizedBox(width: 8), // Smaller space between icon and text
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min, // Ensure column shrinks to fit content
-                          children: [
-                            Text(
-                              category['title'],
-                              style: TextStyle(
-                                fontSize: 14, // Adjusted font size for better fit
-                                fontWeight: FontWeight.bold,
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                category['title'],
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Text(
-                              '${category['positions']} Open positions',
-                              style: TextStyle(
-                                fontSize: 12, // Adjusted font size
-                                color: Colors.grey,
+                              Text(
+                                '${category['positions']} Open positions',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
