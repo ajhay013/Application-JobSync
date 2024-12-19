@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:capstone/lib/components/favoritejobs.dart';
+import 'favoritejobs.dart'; // Import FavoriteJobs class
+import 'appliedjobs.dart';
 
 class ApplicantsSidebar extends StatefulWidget {
   final String currentRoute;
@@ -82,7 +83,6 @@ class _ApplicantsSidebarState extends State<ApplicantsSidebar> {
                       activeStyle: activeStyle,
                       normalStyle: normalStyle,
                     ),
-                   
                   ],
                 ),
               ),
@@ -118,8 +118,30 @@ class _ApplicantsSidebarState extends State<ApplicantsSidebar> {
         ],
       ),
       onTap: () {
-        Navigator.pushNamed(context, route);
-      },
+  if (label == 'Favorite Jobs') {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => FavoriteJobPage(),
+        transitionDuration: Duration.zero, // No transition duration
+        reverseTransitionDuration: Duration.zero, // No reverse transition duration
+      ),
+    );
+  } else if (label == 'Applied Jobs') {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => AppliedJobPage(),
+        transitionDuration: Duration.zero, // No transition duration
+        reverseTransitionDuration: Duration.zero, // No reverse transition duration
+      ),
+    );
+  } else {
+    Navigator.pushNamed(context, route);
+  }
+},
+
+
     );
   }
 }

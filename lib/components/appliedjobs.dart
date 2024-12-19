@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'applicantsidebar.dart';
+import 'applicantsidebar.dart'; // Import ApplicantsSidebar
 
-class FavoriteJobPage extends StatefulWidget {
+class AppliedJobPage extends StatefulWidget {
   @override
-  _FavoriteJobPageState createState() => _FavoriteJobPageState();
-   Widget build(BuildContext context) {
+  _AppliedJobPageState createState() => _AppliedJobPageState();
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Favorite Jobs')),
-      drawer: ApplicantsSidebar(currentRoute: '/applicants/favoritejobs'), // Pass the current route to the sidebar
+      appBar: AppBar(title: Text('Applied Jobs')),
+      drawer: ApplicantsSidebar(currentRoute: '/applicants/appliedjobs'), // Pass the current route to the sidebar
       body: Center(
-        child: Text('Favorite Jobs Content'),
+        child: Text('Applied Jobs Content'),
       ),
     );
   }
 }
 
-class _FavoriteJobPageState extends State<FavoriteJobPage> {
+class _AppliedJobPageState extends State<AppliedJobPage> {
   final int itemsPerPage = 5;
   int currentPage = 1;
 
@@ -50,7 +50,7 @@ class _FavoriteJobPageState extends State<FavoriteJobPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Favorite Jobs')),
+      appBar: AppBar(title: Text('Applied Jobs')),
       body: Column(
         children: [
           Expanded(
@@ -170,6 +170,6 @@ class PaginationWidget extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: FavoriteJobPage(),
+    home: AppliedJobPage(),
   ));
 }
