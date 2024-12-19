@@ -1,3 +1,4 @@
+import 'package:capstone/Pages/customersupport.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone/pages/Applicant/findjob.dart';
 import 'package:capstone/pages/Applicant/findemployer.dart';
@@ -69,7 +70,10 @@ class CustomDrawer extends StatelessWidget {
             leading: Icon(Icons.support),
             title: Text('Customer Support'),
             onTap: () {
-              // TODO: Implement navigation to Customer Support screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CustomerSupport()),
+              );
             },
           ),
         ],

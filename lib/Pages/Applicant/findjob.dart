@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:capstone/Pages/Applicant/jobdetails.dart';
 
 class FindJob extends StatefulWidget {
   @override
@@ -125,7 +126,7 @@ class _FindJobState extends State<FindJob> {
           // Filter button at the top right
           IconButton(
             icon: Icon(FontAwesomeIcons.filter),
-            onPressed: handleFilter,  // Open the filter modal
+            onPressed: handleFilter, 
           ),
         ],
       ),
@@ -147,7 +148,7 @@ class _FindJobState extends State<FindJob> {
                       
                     ),
                     onChanged: (text) {
-                      setState(() {}); // Trigger filtering when the user types
+                      setState(() {}); 
                     },
                   ),
                 ),
@@ -162,7 +163,7 @@ class _FindJobState extends State<FindJob> {
                       ),
                     ),
                     onChanged: (text) {
-                      setState(() {}); // Trigger filtering when the user types
+                      setState(() {}); 
                     },
                   ),
                 ),
@@ -216,16 +217,22 @@ class _FindJobState extends State<FindJob> {
   }
 }
 
-class JobCard extends StatelessWidget {
+class JobCard extends StatefulWidget {
   final Map<String, String> job;
 
   JobCard({required this.job});
 
   @override
+  _JobCardState createState() => _JobCardState();
+}
+
+class _JobCardState extends State<JobCard> {
+  bool isBookmarked = false; // To track bookmark state
+
+  @override
   Widget build(BuildContext context) {
-    // Define colors for each job type
     Color jobTypeColor = Colors.grey;  // Default color
-    String jobTypeText = job['type'] ?? 'Full Time';
+    String jobTypeText = widget.job['type'] ?? 'Full Time';
 
     if (jobTypeText == 'Full Time') {
       jobTypeColor = Colors.green;
@@ -235,105 +242,121 @@ class JobCard extends StatelessWidget {
       jobTypeColor = Colors.blue;
     }
 
-    return Card(
-      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Stack(
-          children: [
-            // Main content area (job details)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Job title and bookmark icon in a row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Job title
-                    Text(
-                      job['title']!,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    // Bookmark Icon aligned to the top-right
-                    IconButton(
-                      icon: Icon(FontAwesomeIcons.bookmark),
-                      onPressed: () {
-                        // Add your bookmarking functionality here
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-
-                // Job Type and Salary in a row, placed close to each other
-                Row(
-                  children: [
-                    // Job Type with color
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: jobTypeColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        jobTypeText,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to JobDetails screen and pass the job data
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => JobDetails(job: widget.job),
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              // Main content area (job details)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Job title and bookmark icon in a row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Job title
+                      Text(
+                        widget.job['title']!,
                         style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
-                    ),
-                    SizedBox(width: 15),
-                    // Salary display
-                    Text(
-                      '${job['salary'] ?? '70,000'}',
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.grey,
+                      // Bookmark Icon aligned to the top-right
+                      IconButton(
+                        icon: Icon(
+                          isBookmarked 
+                              ? FontAwesomeIcons.solidBookmark  // Filled bookmark if bookmarked
+                              : FontAwesomeIcons.bookmark,      // Outline bookmark if not bookmarked
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isBookmarked = !isBookmarked;  // Toggle the bookmark state
+                          });
+                        },
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
+                    ],
+                  ),
+                  SizedBox(height: 8),
 
-                // Company logo and name
-                Row(
-                  children: [
-                    // Increased company logo size
-                    CircleAvatar(
-                      radius: 40, // Increased from 20 to 30
-                      backgroundImage: AssetImage('assets/logo/google_logo.png'),
-                    ),
-                    SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          job['company']!,
+                  // Job Type and Salary in a row, placed close to each other
+                  Row(
+                    children: [
+                      // Job Type with color
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: jobTypeColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          jobTypeText,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 14,
+                            color: Colors.white,
                           ),
                         ),
-                        
-                        Text(
-                          job['location'] ?? 'Location not specified',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
+                      ),
+                      SizedBox(width: 15),
+                      // Salary display
+                      Text(
+                        '${widget.job['salary'] ?? '70,000'}',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.grey,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-              ],
-            ),
-          ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+
+                  // Company logo and name
+                  Row(
+                    children: [
+                      // Increased company logo size
+                      CircleAvatar(
+                        radius: 40, // Increased from 20 to 30
+                        backgroundImage: AssetImage('assets/logo/google_logo.png'),
+                      ),
+                      SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.job['company']!,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            widget.job['location'] ?? 'Location not specified',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
