@@ -81,15 +81,7 @@ class _ApplicantsSidebarState extends State<ApplicantsSidebar> {
                       activeStyle: activeStyle,
                       normalStyle: normalStyle,
                     ),
-                    _buildSidebarItem(
-                      context,
-                      icon: Icons.settings,
-                      label: 'Settings',
-                      route: '/applicants/applicantsettings',
-                      isActive: widget.currentRoute == '/applicants/applicantsettings',
-                      activeStyle: activeStyle,
-                      normalStyle: normalStyle,
-                    ),
+                   
                   ],
                 ),
               ),
