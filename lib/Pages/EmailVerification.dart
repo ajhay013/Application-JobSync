@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class EmailVerificationScreen extends StatefulWidget {
   final String email;
 
-  EmailVerificationScreen({required this.email});
+  EmailVerificationScreen({required this.email}); 
 
   @override
   _EmailVerificationScreenState createState() =>
