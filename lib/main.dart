@@ -67,7 +67,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
  Future<void> _submitForm() async {
     if (_formKey.currentState?.validate() ?? false) {
       final response = await http.post(
-        Uri.parse('http://192.168.1.13/jobsync/insert_user.php'),  // Replace with actual URL
+        Uri.parse('http://192.168.1.18/jobsync/insert_user.php'),  // Replace with actual URL
         body: {
   'firstname': _firstNameController.text,
   'middlename': _middleNameController.text,
