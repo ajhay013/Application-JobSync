@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:capstone/lib/components/favoritejobs.dart';
 
 class ApplicantsSidebar extends StatefulWidget {
   final String currentRoute;

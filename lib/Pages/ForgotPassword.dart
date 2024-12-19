@@ -11,7 +11,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -32,7 +32,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             onPressed: () {},
           ),
         ],
-      ),
+      ),*/
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -40,6 +40,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -47,7 +48,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     'assets/logo/jobsync_logo.png',
                     height: 80,
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
                   const Text(
                     'JobSync',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

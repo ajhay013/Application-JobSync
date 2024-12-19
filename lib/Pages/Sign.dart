@@ -38,7 +38,7 @@ class _SignScreenState extends State<SignScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -59,7 +59,7 @@ class _SignScreenState extends State<SignScreen> {
             onPressed: () {},
           ),
         ],
-      ),
+      ),*/
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -67,14 +67,16 @@ class _SignScreenState extends State<SignScreen> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+                  const SizedBox(height: 60),
               Row(
+                
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/logo/jobsync_logo.png',
                     height: 80,
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
                   const Text(
                     'JobSync',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -141,17 +143,23 @@ class _SignScreenState extends State<SignScreen> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const RegistrationForm()),
-                      );
-                    },
-                    child: const Text(
-                      "Create an Account",
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+  onTap: () {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => const RegistrationForm(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child; // No animation for an instant transition
+        },
+      ),
+    );
+  },
+  child: const Text(
+    "Create an Account",
+    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+  ),
+),
+
                 ],
               ),
               const SizedBox(height: 20),
